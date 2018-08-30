@@ -106,9 +106,13 @@ $(document).on('click', '.choice', function(){
 })
 
 $('.finishQuiz').on('click', function(){
+    finishGame()
+})
 
-    count = 0
-    
+function finishGame(){
+    clearInterval(gameTimer)
+      count = 0
+
     for (let i=0; i<questionsArr.length; i++){
         $(`.answer-${i}`).css('visibility','visible')
         if (window[`qChoice${i}`] === questionsArr[i].rightAnswer){
@@ -123,4 +127,35 @@ $('.finishQuiz').on('click', function(){
         alert('So Close! Try Again!')
         console.log(count)
     }
-})
+}
+
+function timeConversion (t) {
+    var minutes = Math.floor(t / 60)
+    var seconds = t - (minutes * 60)
+
+    if (seconds < 10) {
+      seconds = '0' + seconds
+    }
+
+    if (minutes === 0) {
+      minutes = '00'
+    } else if (minutes < 10) {
+      minutes = '0' + minutes
+    }
+
+    return minutes + ':' + seconds
+  }
+
+let time = 120
+$('.time').html('02:00')
+
+let gameTimer = setInterval(function(){
+    time--
+    if (time > 0){ 
+        $('.time').html(timeConversion(time))
+    }
+    else{
+        $('.time').html('00:00')
+        finishGame()
+    }
+}, 1000)
